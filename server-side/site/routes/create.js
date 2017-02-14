@@ -10,18 +10,21 @@ var Server = mongo.Server,
  
 var MongoClient = mongo.MongoClient;
 var db = null;
-MongoClient.connect("mongodb://user:password@ip:27017/site?authSource=admin", function(err, authdb) {
+var connection = "mongodb://"+process.env.DB_USER+":"+process.env.DB_PASS+"@"+process.env.DB_HOST+":27017/site?authSource=admin";
+console.log("Connection String: " + connection);
+MongoClient.connect(connection, function(err, authdb) {
   // Now you can use the database in the db variable
   db = authdb;
   console.log( err || "connected!" );
 });
 
 var emailServer  = emailjs.server.connect({
-   user:    "supportemail@domain.com", 
-   password:"supportpwd", 
+   user:    "checkbox.io.testing@gmail.com", 
+   password:"checkbox", 
    host:    "smtp.gmail.com", 
    ssl:     true
 });
+
 
 exports.createStudy = function(req, res) {
 
@@ -38,12 +41,13 @@ exports.createStudy = function(req, res) {
     {
     	db.collection('studies', function(err, collection) 
     	{
+		debugger;
     		if( err )
     			console.log( err );
 
         	collection.insert(study, {safe:true}, function(err, result) 
         	{
-        		console.log( err || "Study created: " + result[0]._id );
+        		console.log( err || "Study created: " + study._id );
 
         		if( err )
         		{
@@ -51,7 +55,7 @@ exports.createStudy = function(req, res) {
         		}
         		else
         		{
-                    study.setPublicLink( result[0]._id );
+                    study.setPublicLink( study._id );
 
                     // update with new public link, and notify via email, redirect user to admin page.
                     collection.update( {'_id' : study._id}, {'$set' : {'publicLink' : study.publicLink}},
