@@ -78,11 +78,11 @@ DataStudyModel = function( incoming, token )
 	self.markdown = incoming.markdown;
 	self.token = token;
 
-	self.adminLink = "http://checkbox.io/studies/admin/?token=" + token;
+	self.adminLink = "http://"+process.env.SERVER_IP+":80/studies/admin/?token=" + token;
 
 	self.setPublicLink = function(id)
 	{
-		self.publicLink = "http://checkbox.io/studies/?id=" + id;
+		self.publicLink = "http://"+process.env.SERVER_IP+":80/studies/?id=" + id;
 	};
 
 
@@ -95,7 +95,7 @@ DataStudyModel = function( incoming, token )
               "Public data study url: \n" + 
               self.publicLink + "\n"
             ,
-            from:    "Chris Parnin <support@checkbox.io>",
+            from:    "Priyaranjan Behera<checkbox.io.testing@gmail.com>",
             to:      self.researcherName + "<"+ self.contact +">",
             subject: "checkbox.io: data study created"
         };

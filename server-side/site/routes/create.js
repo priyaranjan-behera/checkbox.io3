@@ -19,8 +19,8 @@ MongoClient.connect(connection, function(err, authdb) {
 });
 
 var emailServer  = emailjs.server.connect({
-   user:    "checkbox.io.testing@gmail.com", 
-   password:"checkbox", 
+   user:    process.env.EMAIL_ADDR, 
+   password:process.env.EMAIL_PWD, 
    host:    "smtp.gmail.com", 
    ssl:     true
 });
