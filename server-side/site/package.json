@@ -15,6 +15,8 @@
     "mongodb": "2.2.23",
     "emailjs": "1.0.8",
     "validator": "6.2.1",
-    "dotenv": "4.0.0"
+    "dotenv": "4.0.0",
+    "escodegen": "^1.4.1",
+    "esprima": "^1.2.2"
   }
 }
