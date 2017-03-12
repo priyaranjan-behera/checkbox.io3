@@ -36,9 +36,9 @@ function main()
 
     //console.log("Filelist: ", filelist);
 
-    for( i=0; i< filelist.length; i++)
+    for( i=0; i < filelist.length; i++)
     {
-    	if(filelist[i].endsWith('.js') && !filelist[i].includes('node_modules'))
+    	if(filelist[i].endsWith('.js') && !filelist[i].includes('node_modules') && !filelist[i].includes('analysis.js'))
     	{
     		console.log("XML File: ", filelist[i]);
 
@@ -49,18 +49,20 @@ function main()
 			for( var node in builders )
 			{
 				var builder = builders[node];
+				
 				builder.report();
+
 				if(builder.MaxConditions > 8)
-					return -1;
+					process.exit(-1);
 				if(builder.lineCount > 100)
-					return -1;
+					process.exit(-1);
 				if(builder.MaxNestingDepth > 3)
-					return -1;
+					process.exit(-1);
 			}
     	}
     }
 
-    return 0;
+    process.exit(0);
 }
 
 
