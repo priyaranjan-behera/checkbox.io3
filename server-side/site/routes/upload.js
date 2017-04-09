@@ -8,6 +8,8 @@ var _ = require('underscore');
 
 var archiver = require('archiver');
 
+require('dotenv').config();
+
 
 var Server = mongo.Server,
     Db = mongo.Db,

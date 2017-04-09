@@ -11,6 +11,8 @@ var express = require('express'),
 
 var app = express();
 
+require('dotenv').config();
+
 app.configure(function () {
     app.use(express.logger('dev'));     /* 'default', 'short', 'tiny', 'dev' */
     app.use(express.bodyParser());

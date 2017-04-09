@@ -3,6 +3,7 @@ var crypto = require('crypto');
 var emailjs = require('emailjs/email');
 var models = require('./studyModel.js');
 
+require('dotenv').config();
  
 var Server = mongo.Server,
     Db = mongo.Db,

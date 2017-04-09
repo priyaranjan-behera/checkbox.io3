@@ -2,6 +2,8 @@ var mongo = require('mongodb');
 var check = require('validator').check;
 var _ = require('underscore');
 
+require('dotenv').config();
+
 var Server = mongo.Server,
     Db = mongo.Db,
     ObjectID = mongo.BSONPure.ObjectID;

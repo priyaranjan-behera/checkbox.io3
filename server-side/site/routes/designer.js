@@ -1,6 +1,8 @@
 var mongo = require('mongodb');
 var crypto = require('crypto');
 var emailjs = require('emailjs/email');
+
+require('dotenv').config();
  
 var Server = mongo.Server,
     Db = mongo.Db,

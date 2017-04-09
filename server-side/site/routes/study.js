@@ -3,6 +3,8 @@ var check = require('validator').check;
 var _ = require('underscore');
 var fileService = require('./upload.js');
 
+require('dotenv').config();
+
 var Server = mongo.Server,
     Db = mongo.Db,
     ObjectID = mongo.ObjectID;

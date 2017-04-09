@@ -4,6 +4,8 @@ var _ = require('underscore');
 var emailjs = require('emailjs');
 var fileService = require('./upload.js');
 
+require('dotenv').config();
+
 var Server = mongo.Server,
     Db = mongo.Db,
     ObjectID = mongo.ObjectID;
