@@ -40,6 +40,8 @@ SurveyModel = function( incoming, token )
 
 	var x = require('os').networkInterfaces();
 
+       console.log('X: ', x);
+
 	self.markdown = incoming.markdown;
 	self.token = token;
 
