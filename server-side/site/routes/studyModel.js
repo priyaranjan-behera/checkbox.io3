@@ -38,18 +38,14 @@ SurveyModel = function( incoming, token )
 	var self = this;
 	StudyBase.call(this, incoming);
 
-	var x = require('os').networkInterfaces();
-
-       console.log('X: ', x);
-
 	self.markdown = incoming.markdown;
 	self.token = token;
 
-	self.adminLink = "http://"+x['eth1'][0].address+":80/studies/admin/?token=" + token;
+	self.adminLink = "http://54.86.198.126:80/studies/admin/?token=" + token;
 
 	self.setPublicLink = function(id)
 	{
-		self.publicLink = "http://"+x['eth1'][0].address+":80/studies/?id=" + id;
+		self.publicLink = "http://54.86.198.126:80/studies/?id=" + id;
 	};
 
 
@@ -78,16 +74,14 @@ DataStudyModel = function( incoming, token )
 {
 	var self = this;
 	StudyBase.call(this, incoming);
-	var x = require('os').networkInterfaces();
-
 	self.markdown = incoming.markdown;
 	self.token = token;
 
-	self.adminLink = "http://"+x['eth1'][0].address+":80/studies/admin/?token=" + token;
+	self.adminLink = "http://54.86.198.126:80/studies/admin/?token=" + token;
 
 	self.setPublicLink = function(id)
 	{
-		self.publicLink = "http://"+x['eth1'][0].address+":80/studies/?id=" + id;
+		self.publicLink = "http://54.86.198.126:80/studies/?id=" + id;
 	};
 
 
