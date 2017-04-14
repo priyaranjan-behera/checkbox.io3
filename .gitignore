@@ -2,4 +2,3 @@ node_modules/
 .eslintcache/
 coverage/
 lib-cov/
-server-side/site/.env
