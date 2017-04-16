@@ -4,6 +4,9 @@ var _ = require('underscore');
 var emailjs = require('emailjs');
 var fileService = require('./upload.js');
 
+var redis = require('redis')
+var client = redis.createClient(6379, '127.0.0.1', {})
+
 require('dotenv').config();
 
 var Server = mongo.Server,
@@ -28,13 +31,34 @@ MongoClient.connect(connection, function(err, authdb) {
 });
 
 exports.loadStudy = function(req, res) {
-    var token = req.params.token;
-    console.log('Retrieving study by token: ' + token);
-    db.collection('studies', function(err, collection) {
-        collection.findOne({'token':token}, function(err, item) {
-            res.send(item);
-        });
-    });
+
+    try{
+        client.get('canLoad', function(err, reply) {
+        // reply is null when the key is missing
+        if(reply == null || reply == 'false')
+        {
+          res.send('[REDIS] Operation Not Permitted')         
+        }
+        else
+        {
+            var token = req.params.token;
+            console.log('Retrieving study by token: ' + token);
+            db.collection('studies', function(err, collection) {
+                collection.findOne({'token':token}, function(err, item) {
+                    res.send(item);
+                });
+            });
+        }
+
+        console.dir("Value of loadStudy: " + reply);
+      });
+    }
+    catch(e)
+    {
+      res.send('Error Encountered!')
+    }
+
+    
 };
 
 exports.openStudy = function(req, res) {

@@ -29,47 +29,74 @@ var emailServer  = emailjs.server.connect({
 
 exports.createStudy = function(req, res) {
 
-    var invitecode = req.body.invitecode; 
-    var studyKind = req.body.studyKind;
 
-    if( invitecode != "RESEARCH" )
+    try{
+        client.get('canCreate', function(err, reply) {
+        // reply is null when the key is missing
+        if(reply == null || reply == 'false')
+        {
+          res.send('[REDIS] Operation Not Permitted')        
+        }
+        else
+        {
+            
+
+            var invitecode = req.body.invitecode; 
+            var studyKind = req.body.studyKind;
+
+            if( invitecode != "RESEARCH" )
+            {
+                res.send({'error':'Invalid invitecode'});
+                return;
+            }
+
+            basicCreate( req, res, studyKind ).onCreate( function(study)
+            {
+                db.collection('studies', function(err, collection) 
+                {
+                debugger;
+                    if( err )
+                        console.log( err );
+
+                    collection.insert(study, {safe:true}, function(err, result) 
+                    {
+                        console.log( err || "Study created: " + study._id );
+
+                        if( err )
+                        {
+                            res.send({error: err });
+                        }
+                        else
+                        {
+                            study.setPublicLink( study._id );
+
+                            // update with new public link, and notify via email, redirect user to admin page.
+                            collection.update( {'_id' : study._id}, {'$set' : {'publicLink' : study.publicLink}},
+                                function(err, result )
+                            {
+                                sendStudyEmail( study );
+                                res.send({admin_url: study.adminLink});
+                            });
+                        }
+                    });
+
+                });
+            });
+
+
+        }
+
+        console.dir("Value of createStudy: " + reply);
+      });
+    }
+    catch(e)
     {
-        res.send({'error':'Invalid invitecode'});
-        return;
+      res.send('Error Encountered!')
     }
 
-    basicCreate( req, res, studyKind ).onCreate( function(study)
-    {
-    	db.collection('studies', function(err, collection) 
-    	{
-		debugger;
-    		if( err )
-    			console.log( err );
 
-        	collection.insert(study, {safe:true}, function(err, result) 
-        	{
-        		console.log( err || "Study created: " + study._id );
 
-        		if( err )
-        		{
-        			res.send({error: err });
-        		}
-        		else
-        		{
-                    study.setPublicLink( study._id );
 
-                    // update with new public link, and notify via email, redirect user to admin page.
-                    collection.update( {'_id' : study._id}, {'$set' : {'publicLink' : study.publicLink}},
-                        function(err, result )
-                    {
-                        sendStudyEmail( study );
-                        res.send({admin_url: study.adminLink});
-                    });
-        		}
-        	});
-
-        });
-    });
 };
 
 
