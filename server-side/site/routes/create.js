@@ -4,6 +4,9 @@ var emailjs = require('emailjs/email');
 var models = require('./studyModel.js');
 
 require('dotenv').config();
+
+var redis = require('redis')
+var client = redis.createClient(6379, '127.0.0.1', {})
  
 var Server = mongo.Server,
     Db = mongo.Db,
